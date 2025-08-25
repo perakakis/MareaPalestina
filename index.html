@@ -260,7 +260,7 @@
 
         <div class="form-section">
             <h2>Make Your Commitment</h2>
-            <form id="commitmentForm" action="https://script.google.com/macros/s/AKfycbyS-8F8ZPUihHUllU_uWLUuMx8a5w--sfRHZyzEWBIZ7XtywTnZ69xObxOKIsxYltkf/exec" method="POST">
+            <form id="commitmentForm" action="YOUR_GOOGLE_SCRIPT_URL" method="POST">
                 <div class="form-group">
                     <input name="bot-field" style="display: none;">
                 </div>
@@ -347,7 +347,7 @@
         async function loadSignatories() {
             try {
                 console.log('Attempting to load signatures...');
-                const response = await fetch('https://script.google.com/macros/s/AKfycbyS-8F8ZPUihHUllU_uWLUuMx8a5w--sfRHZyzEWBIZ7XtywTnZ69xObxOKIsxYltkf/exec');
+                const response = await fetch('/.netlify/functions/get-signatures');
                 console.log('Function response status:', response.status);
                 
                 if (response.ok) {
@@ -366,12 +366,13 @@
             displaySignatories();
         }
 
-        // Form submission handler
+        // Form submission handler  
         document.getElementById('commitmentForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent default form submission
+            
             const checkboxes = document.querySelectorAll('input[name="commitments"]:checked');
             
             if (checkboxes.length === 0) {
-                e.preventDefault();
                 alert('Please select at least one commitment to sign.');
                 return false;
             }
@@ -382,20 +383,21 @@
             submitBtn.textContent = 'Submitting...';
             submitBtn.disabled = true;
             
-            // Submit to Google Sheets
+            // Prepare form data
             const formData = new FormData(this);
             
+            // Submit to Google Sheets
             fetch(this.action, {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
+            .then(response => {
+                // Google Apps Script returns HTML, so we check if the request was successful
+                if (response.ok) {
                     alert('Thank you for signing the commitment!');
                     this.reset();
                     // Reload signatures after submission
-                    setTimeout(loadSignatories, 2000);
+                    setTimeout(loadSignatories, 3000);
                 } else {
                     alert('There was an error. Please try again.');
                 }
@@ -408,8 +410,6 @@
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
             });
-            
-            return false;
         });
         
         function displaySignatories() {
