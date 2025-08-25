@@ -260,7 +260,7 @@
 
         <div class="form-section">
             <h2>Make Your Commitment</h2>
-            <form id="commitmentForm" action="YOUR_GOOGLE_SCRIPT_URL" method="POST">
+            <form id="commitmentForm" action="https://script.google.com/macros/s/AKfycbyS-8F8ZPUihHUllU_uWLUuMx8a5w--sfRHZyzEWBIZ7XtywTnZ69xObxOKIsxYltkf/exec" method="POST">
                 <div class="form-group">
                     <input name="bot-field" style="display: none;">
                 </div>
@@ -347,7 +347,7 @@
         async function loadSignatories() {
             try {
                 console.log('Attempting to load signatures...');
-                const response = await fetch('/.netlify/functions/get-signatures');
+                const response = await fetch('https://script.google.com/macros/s/AKfycbyS-8F8ZPUihHUllU_uWLUuMx8a5w--sfRHZyzEWBIZ7XtywTnZ69xObxOKIsxYltkf/exec');
                 console.log('Function response status:', response.status);
                 
                 if (response.ok) {
