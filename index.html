@@ -260,7 +260,7 @@
 
         <div class="form-section">
             <h2>Make Your Commitment</h2>
-            <form id="commitmentForm" netlify netlify-honeypot="bot-field" name="commitment-form" method="POST">
+            <form id="commitmentForm" netlify netlify-honeypot="bot-field" name="commitment-form" action="/thank-you.html">
                 <div class="form-group" style="display: none;">
                     <input name="bot-field">
                 </div>
@@ -343,21 +343,19 @@
     <script>
         let signatories = [];
 
-        // Load existing signatures from Netlify function
+        // Simplified approach - show a message that signatures are being processed
         async function loadSignatories() {
-            try {
-                const response = await fetch('/.netlify/functions/get-signatures');
-                if (response.ok) {
-                    const data = await response.json();
-                    signatories = data.signatories || [];
-                } else {
-                    console.warn('Could not load signatures, using fallback');
-                    signatories = [];
+            // For now, show a message that submissions are being processed
+            signatories = [
+                {
+                    name: "Check submissions in Netlify dashboard",
+                    affiliation: "Go to Forms section to see all signatures",
+                    department: "",
+                    commitments: ["Signatures are being collected"],
+                    additional: "We're working on displaying signatures automatically",
+                    date: new Date().toLocaleDateString()
                 }
-            } catch (error) {
-                console.warn('Error loading signatures:', error);
-                signatories = [];
-            }
+            ];
             displaySignatories();
         }
 
