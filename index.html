@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Day Commitment - Professor Pledge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .actions-section {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .actions-section h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .commitment-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .commitment-list li {
+            padding: 15px 0;
+            border-bottom: 1px solid #ecf0f1;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .commitment-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .form-section {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .form-section h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 100px;
+        }
+
+        .checkbox-group {
+            margin: 20px 0;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 12px;
+            margin-top: 4px;
+            transform: scale(1.2);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .signatories-section {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .signatories-section h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .signatory {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+
+        .signatory-name {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+
+        .signatory-affiliation {
+            color: #7f8c8d;
+            margin: 5px 0;
+        }
+
+        .signatory-commitments {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .signatory-date {
+            text-align: right;
+            color: #95a5a6;
+            font-size: 0.8em;
+            margin-top: 10px;
+        }
+
+        .no-signatories {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+            padding: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .header, .actions-section, .form-section, .signatories-section {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>First Day Commitment</h1>
+            <p class="subtitle">A pledge for inclusive and engaging teaching practices</p>
+        </div>
+
+        <div class="actions-section">
+            <h2>Our Commitments</h2>
+            <ul class="commitment-list">
+                <li>I will learn and use every student's name within the first two weeks of class</li>
+                <li>I will clearly communicate course expectations and learning objectives on the first day</li>
+                <li>I will create an inclusive classroom environment where all students feel welcome</li>
+                <li>I will be available during posted office hours and respond to student emails within 48 hours</li>
+                <li>I will provide clear rubrics and timely feedback on assignments</li>
+                <li>I will acknowledge when I don't know something and work to find the answer</li>
+                <li>I will treat all students with respect and encourage their academic growth</li>
+                <li>I will continuously work to improve my teaching methods based on student feedback</li>
+            </ul>
+        </div>
+
+        <div class="form-section">
+            <h2>Make Your Commitment</h2>
+            <form id="commitmentForm" netlify netlify-honeypot="bot-field" name="commitment-form" method="POST">
+                <div class="form-group" style="display: none;">
+                    <input name="bot-field">
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="affiliation">Institution/Affiliation *</label>
+                    <input type="text" id="affiliation" name="affiliation" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Department (optional)</label>
+                    <input type="text" id="department" name="department">
+                </div>
+
+                <div class="checkbox-group">
+                    <p><strong>Select the commitments you pledge to uphold:</strong></p>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="commitment1" name="commitments" value="Learn student names">
+                        <label for="commitment1">Learn and use every student's name within the first two weeks</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="commitment2" name="commitments" value="Clear expectations">
+                        <label for="commitment2">Clearly communicate course expectations and learning objectives</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="commitment3" name="commitments" value="Inclusive environment">
+                        <label for="commitment3">Create an inclusive classroom environment</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="commitment4" name="commitments" value="Available for students">
+                        <label for="commitment4">Be available during office hours and respond to emails within 48 hours</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="commitment5" name="commitments" value="Clear feedback">
+                        <label for="commitment5">Provide clear rubrics and timely feedback</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="commitment6" name="commitments" value="Acknowledge limits">
+                        <label for="commitment6">Acknowledge when I don't know something and find answers</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="commitment7" name="commitments" value="Respect students">
+                        <label for="commitment7">Treat all students with respect and encourage growth</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="commitment8" name="commitments" value="Continuous improvement">
+                        <label for="commitment8">Continuously improve teaching methods based on feedback</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="additional">Additional Personal Commitments (optional)</label>
+                    <textarea id="additional" name="additional" placeholder="Any additional commitments you'd like to make..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Sign the Commitment</button>
+            </form>
+        </div>
+
+        <div class="signatories-section">
+            <h2>Signatories</h2>
+            <div id="signatories-list">
+                <div class="no-signatories">
+                    Be the first to sign this commitment!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let signatories = [];
+
+        // Load existing signatures from Netlify function
+        async function loadSignatories() {
+            try {
+                const response = await fetch('/.netlify/functions/get-signatures');
+                if (response.ok) {
+                    const data = await response.json();
+                    signatories = data.signatories || [];
+                } else {
+                    console.warn('Could not load signatures, using fallback');
+                    signatories = [];
+                }
+            } catch (error) {
+                console.warn('Error loading signatures:', error);
+                signatories = [];
+            }
+            displaySignatories();
+        }
+
+        // Form submission - let Netlify handle it completely
+        document.getElementById('commitmentForm').addEventListener('submit', function(e) {
+            const checkboxes = document.querySelectorAll('input[name="commitments"]:checked');
+            
+            if (checkboxes.length === 0) {
+                e.preventDefault();
+                alert('Please select at least one commitment to sign.');
+                return false;
+            }
+            
+            // Let the form submit naturally to Netlify
+            // Don't prevent default - let Netlify handle it
+            return true;
+        });
+        
+        function displaySignatories() {
+            const container = document.getElementById('signatories-list');
+            
+            if (signatories.length === 0) {
+                container.innerHTML = '<div class="no-signatories">Be the first to sign this commitment!</div>';
+                return;
+            }
+            
+            let html = '';
+            signatories.forEach(signatory => {
+                const departmentText = signatory.department ? ` - ${signatory.department}` : '';
+                const additionalText = signatory.additional ? `<div><strong>Additional commitments:</strong> ${signatory.additional}</div>` : '';
+                
+                html += `
+                    <div class="signatory">
+                        <div class="signatory-name">${signatory.name}</div>
+                        <div class="signatory-affiliation">${signatory.affiliation}${departmentText}</div>
+                        <div class="signatory-commitments">
+                            <strong>Commitments:</strong> ${signatory.commitments.join(', ')}
+                        </div>
+                        ${additionalText}
+                        <div class="signatory-date">Signed on ${signatory.date}</div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // Load signatures when page loads
+        loadSignatories();
+    </script>
+</body>
+</html>
