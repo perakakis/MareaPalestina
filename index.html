@@ -341,7 +341,17 @@
     </div>
 
     <script>
-        let signatories = [];
+        let signatories = [
+            // Add a test signature to verify display works
+            {
+                name: "Dr. Test Professor",
+                affiliation: "Example University", 
+                department: "Education",
+                commitments: ["Learn student names", "Clear expectations"],
+                additional: "Testing the display system",
+                date: "25/8/2025"
+            }
+        ];
 
         // Simplified approach - show a message that signatures are being processed
         async function loadSignatories() {
