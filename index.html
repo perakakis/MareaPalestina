@@ -315,7 +315,7 @@
 
         <div class="form-section">
             <h2>Firma Tu Compromiso</h2>
-            <form id="commitmentForm" action="https://script.google.com/macros/s/AKfycbzcvaspx5sghfpGGhwXqBL0JOkr66vr4Wb-zXFHM3SAJtxIBmjhwpChuB39oQY1vhcv/exec" method="POST">
+            <form id="commitmentForm" action="GOOGLE_SCRIPT_URL_HERE" method="POST">
                 <div class="form-group">
                     <input name="bot-field" style="display: none;">
                 </div>
@@ -343,43 +343,43 @@
                 <div class="checkbox-group">
                     <p><strong>Selecciona las acciones que te comprometes a realizar:</strong></p>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="commitment1" name="commitments" value="Reflexión sobre Palestina">
+                        <input type="checkbox" id="commitment1" name="commitment1" value="Reflexión sobre Palestina">
                         <label for="commitment1">Dedicar 5 minutos a reflexionar sobre la situación en Palestina</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="commitment2" name="commitments" value="Contenidos derechos humanos">
+                        <input type="checkbox" id="commitment2" name="commitment2" value="Contenidos derechos humanos">
                         <label for="commitment2">Incluir contenidos sobre derechos humanos y Palestina en la programación</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="commitment3" name="commitments" value="Debate política exterior">
+                        <input type="checkbox" id="commitment3" name="commitment3" value="Debate política exterior">
                         <label for="commitment3">Promover debate sobre la política exterior española hacia Israel/Palestina</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="commitment4" name="commitments" value="Actividades cultura palestina">
+                        <input type="checkbox" id="commitment4" name="commitment4" value="Actividades cultura palestina">
                         <label for="commitment4">Organizar actividades sobre historia y cultura palestina</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="commitment5" name="commitments" value="Pensamiento crítico medios">
+                        <input type="checkbox" id="commitment5" name="commitment5" value="Pensamiento crítico medios">
                         <label for="commitment5">Fomentar pensamiento crítico sobre cobertura mediática del conflicto</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="commitment6" name="commitments" value="Acciones solidaridad">
+                        <input type="checkbox" id="commitment6" name="commitment6" value="Acciones solidaridad">
                         <label for="commitment6">Participar en acciones de solidaridad con Palestina</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="commitment7" name="commitments" value="Compartir recursos">
+                        <input type="checkbox" id="commitment7" name="commitment7" value="Compartir recursos">
                         <label for="commitment7">Compartir recursos educativos sobre Palestina con otros docentes</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="commitment8" name="commitments" value="Explicar importancia ruptura comercial">
+                        <input type="checkbox" id="commitment8" name="commitment8" value="Explicar importancia ruptura comercial">
                         <label for="commitment8">Explicar por qué España debe romper relaciones comerciales con Israel</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="commitment9" name="commitments" value="Materiales didácticos palestina">
+                        <input type="checkbox" id="commitment9" name="commitment9" value="Materiales didácticos palestina">
                         <label for="commitment9">Utilizar materiales que visibilicen la realidad palestina</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="commitment10" name="commitments" value="Mantenerse informado">
+                        <input type="checkbox" id="commitment10" name="commitment10" value="Mantenerse informado">
                         <label for="commitment10">Mantenerme informado/a sobre la situación palestina</label>
                     </div>
                 </div>
@@ -403,9 +403,9 @@
         </div>
     </div>
 
-    <script> 
+    <script>
         // CONFIGURACIÓN: Actualiza esta URL con tu Google Apps Script
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzcvaspx5sghfpGGhwXqBL0JOkr66vr4Wb-zXFHM3SAJtxIBmjhwpChuB39oQY1vhcv/exec';
+        const GOOGLE_SCRIPT_URL = 'GOOGLE_SCRIPT_URL_HERE';
         
         let signatories = [];
 
@@ -436,7 +436,7 @@
         document.getElementById('commitmentForm').addEventListener('submit', function(e) {
             e.preventDefault(); // Prevenir envío por defecto
             
-            const checkboxes = document.querySelectorAll('input[name="commitments"]:checked');
+            const checkboxes = document.querySelectorAll('input[name^="commitment"]:checked');
             
             if (checkboxes.length === 0) {
                 alert('Por favor selecciona al menos un compromiso para firmar.');
@@ -451,6 +451,12 @@
             
             // Preparar datos del formulario
             const formData = new FormData(this);
+            
+            // Debug: Log what we're sending
+            console.log('Form data being sent:');
+            for (let [key, value] of formData.entries()) {
+                console.log(key, value);
+            }
             
             // Enviar a Google Sheets
             fetch(GOOGLE_SCRIPT_URL, {
