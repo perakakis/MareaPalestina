@@ -341,35 +341,32 @@
     </div>
 
     <script>
-        let signatories = [
-            // Add a test signature to verify display works
-            {
-                name: "Dr. Test Professor",
-                affiliation: "Example University", 
-                department: "Education",
-                commitments: ["Learn student names", "Clear expectations"],
-                additional: "Testing the display system",
-                date: "25/8/2025"
-            }
-        ];
+        let signatories = [];
 
-        // Simplified approach - show a message that signatures are being processed
+        // Load existing signatures from Netlify Forms API
         async function loadSignatories() {
-            // For now, show a message that submissions are being processed
-            signatories = [
-                {
-                    name: "Check submissions in Netlify dashboard",
-                    affiliation: "Go to Forms section to see all signatures",
-                    department: "",
-                    commitments: ["Signatures are being collected"],
-                    additional: "We're working on displaying signatures automatically",
-                    date: new Date().toLocaleDateString()
+            try {
+                console.log('Attempting to load signatures...');
+                const response = await fetch('/.netlify/functions/get-signatures');
+                console.log('Function response status:', response.status);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Received data:', data);
+                    signatories = data.signatories || [];
+                    console.log('Number of signatures loaded:', signatories.length);
+                } else {
+                    console.error('Function returned error:', response.status, await response.text());
+                    signatories = [];
                 }
-            ];
+            } catch (error) {
+                console.error('Error loading signatures:', error);
+                signatories = [];
+            }
             displaySignatories();
         }
 
-        // Form submission - let Netlify handle it completely
+        // Form submission handler
         document.getElementById('commitmentForm').addEventListener('submit', function(e) {
             const checkboxes = document.querySelectorAll('input[name="commitments"]:checked');
             
@@ -379,9 +376,7 @@
                 return false;
             }
             
-            // Let the form submit naturally to Netlify
-            // Don't prevent default - let Netlify handle it
-            return true;
+            // Let the form submit to Netlify naturally
         });
         
         function displaySignatories() {
