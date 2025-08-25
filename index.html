@@ -457,14 +457,16 @@
                 method: 'POST',
                 body: formData
             })
-            .then(response => {
-                if (response.ok) {
+            .then(response => response.json())
+            .then(data => {
+                console.log('Response from Google Sheets:', data);
+                if (data.success) {
                     alert('¡Gracias por firmar el compromiso! Tu firma ha sido registrada.');
                     this.reset();
                     // Recargar firmas después del envío
                     setTimeout(loadSignatories, 3000);
                 } else {
-                    alert('Hubo un error. Por favor inténtalo de nuevo.');
+                    alert('Hubo un error: ' + (data.error || 'Error desconocido'));
                 }
             })
             .catch(error => {
