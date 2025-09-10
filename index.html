@@ -241,6 +241,19 @@
             font-weight: 600;
         }
 
+        .signatory-department {
+            color: #009639;
+            margin: 5px 0;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        .signatory-location {
+            color: #666;
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+
         .signatory-commitments {
             margin-top: 10px;
             font-size: 0.9em;
@@ -517,14 +530,16 @@
 
             let html = '';
             signatories.forEach(signatory => {
-                const departmentText = signatory.department ? ` - ${signatory.department}` : '';
+                const departmentLine = signatory.department ? `<div class="signatory-department">${signatory.department}</div>` : '';
                 const locationText = `${signatory.locality || ''}, ${signatory.province || ''}, ${signatory.region || ''}`.replace(/^,\s*|,\s*$/g, '').replace(/,\s*,/g, ',');
+                const locationLine = locationText ? `<div class="signatory-location">${locationText}</div>` : '';
                 const additionalText = signatory.additional ? `<div><strong>Comentarios adicionales:</strong> ${signatory.additional}</div>` : '';
 
                 html += `
                     <div class="signatory">
                         <div class="signatory-name">${signatory.center}</div>
-                        <div class="signatory-affiliation">${locationText}${departmentText}</div>
+                        ${departmentLine}
+                        ${locationLine}
                         <div class="signatory-commitments">
                             <strong>Acciones:</strong> ${signatory.commitments}
                         </div>
