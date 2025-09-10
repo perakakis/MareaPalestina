@@ -18,6 +18,9 @@ Para tener un registro de las diferentes acciones que están ocurriendo en todo 
 
 - **Formulario de adhesión**: Los centros educativos pueden registrar su participación en acciones específicas
 - **Lista de adheridos en tiempo real**: Visualización dinámica de centros y colectivos participantes
+- **Contador de adhesiones**: Seguimiento en tiempo real del número total de centros adheridos
+- **Protección de privacidad**: Nombres de representantes y emails no se muestran públicamente
+- **Descarga de documentos**: Acceso directo a la declaración oficial en PDF
 - **Diseño responsive**: Optimizado para dispositivos móviles
 - **Colores de la bandera palestina**: Identidad visual solidaria
 - **Registro por instituciones**: Enfoque en centros educativos y organizaciones colectivas
@@ -39,11 +42,29 @@ Para contribuir con mejoras o modificaciones, haz un fork del repositorio y env�
 
 Los centros educativos y colectivos pueden adherirse a:
 
-1. **Adhesión del claustro educativo/consejo escolar** a la DECLARACIÓN DE "MAREA PALESTINA: LA EDUCACIÓN CONTRA EL GENOCIDIO" PARA TODOS LOS CENTROS EDUCATIVOS DEL ESTADO ESPAÑOL
+1. **Adhesión del claustro educativo/consejo escolar** a la DECLARACIÓN DE "MAREA PALESTINA: LA EDUCACIÓN CONTRA EL GENOCIDIO" PARA TODOS LOS CENTROS EDUCATIVOS DEL ESTADO ESPAÑOL (con descarga del documento en PDF)
 
-2. **Encierros "Marea Palestina: la educación contra el genocidio"**
+*Nota: Actualmente solo se muestra la primera acción en el formulario, pero la infraestructura soporta múltiples acciones para futuras expansiones.*
 
-3. **Acción "Pasamos lista"**: Consistente en la lectura de los nombres de las niñas y niños asesinados, con una duración de unas 15 horas
+## 📋 Información Requerida
+
+**Datos obligatorios:**
+- Nombre del centro/colectivo/organización
+- Nombre del representante (privado)
+- Email de contacto (privado)
+- Localidad, provincia y comunidad autónoma
+
+**Datos opcionales:**
+- Departamento o área específica
+- Comentarios adicionales
+
+## 🔐 Privacidad
+
+Los nombres de representantes y direcciones de email se recopilan para contacto interno pero **nunca se muestran públicamente**. Solo aparecen en la lista pública:
+- Nombre del centro/organización
+- Departamento (si se proporciona)
+- Ubicación geográfica
+- Acciones a las que se adhiere
 
 ## 🎨 Diseño
 
