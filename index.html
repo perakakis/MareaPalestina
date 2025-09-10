@@ -99,6 +99,11 @@
             font-size: 1.2em;
         }
 
+        /* Hide actions 2-3 (easily restorable by removing these rules) */
+        .commitment-list li:nth-child(n+2) {
+            display: none;
+        }
+
         .form-section {
             background: rgba(255, 255, 255, 0.95);
             padding: 40px;
@@ -168,6 +173,11 @@
             margin-top: 4px;
             transform: scale(1.3);
             accent-color: #CE1126;
+        }
+
+        /* Hide checkbox items 2-3 (easily restorable by removing these rules) */
+        .checkbox-item:nth-child(n+3) {
+            display: none;
         }
 
         .submit-btn {
@@ -326,18 +336,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="representative">Nombre de la persona representante (en caso de ser necesario):</label>
-                    <input type="text" id="representative" name="representative" placeholder="Nombre del representante">
-                </div>
-
-                <div class="form-group">
                     <label for="center">Nombre del colectivo/organización/institución/centro educativo *</label>
                     <input type="text" id="center" name="center" required placeholder="Nombre del centro o colectivo">
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Correo electrónico de contacto: *</label>
-                    <input type="email" id="email" name="email" required>
                 </div>
 
                 <div class="form-group">
@@ -345,10 +345,37 @@
                     <input type="text" id="department" name="department" placeholder="Tu departamento o área">
                 </div>
 
+                <div class="form-group">
+                    <label for="representative">Nombre de la persona representante *</label>
+                    <div style="color: #CE1126; font-weight: bold; font-size: 0.9em; margin-bottom: 8px;">⚠️ Este dato no se hará público</div>
+                    <input type="text" id="representative" name="representative" required placeholder="Nombre del representante">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Correo electrónico de contacto: *</label>
+                    <div style="color: #CE1126; font-weight: bold; font-size: 0.9em; margin-bottom: 8px;">⚠️ Este dato no se hará público</div>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="locality">Localidad *</label>
+                    <input type="text" id="locality" name="locality" required placeholder="Tu localidad">
+                </div>
+
+                <div class="form-group">
+                    <label for="province">Provincia *</label>
+                    <input type="text" id="province" name="province" required placeholder="Tu provincia">
+                </div>
+
+                <div class="form-group">
+                    <label for="region">Comunidad Autónoma *</label>
+                    <input type="text" id="region" name="region" required placeholder="Tu comunidad autónoma">
+                </div>
+
                 <div class="checkbox-group">
                     <p><strong>Me adhiero a las siguientes acciones:</strong></p>
                     <div class="checkbox-item">
-                        <input type="checkbox" id="commitment1" name="commitment1" value="Adhesión del claustro educativo/consejo escolar">
+                        <input type="checkbox" id="commitment1" name="commitment1" value="Adhesión del claustro educativo/consejo escolar" checked>
                         <label for="commitment1">1. Adhesión del claustro educativo/consejo escolar</label>
                     </div>
                     <div class="checkbox-item">
@@ -372,6 +399,9 @@
 
         <div class="signatories-section">
             <h2>Listado de colectivos/organizaciones/instituciones/centros educativos adheridos</h2>
+            <div id="signature-counter" style="background: #f8fff8; padding: 15px; border-radius: 8px; border-left: 4px solid #009639; margin-bottom: 20px; text-align: center;">
+                <strong style="color: #CE1126; font-size: 1.2em;">Total de adhesiones: <span id="counter-number">0</span></strong>
+            </div>
             <div id="signatories-list">
                 <div class="no-signatories">
                     ¡Sé el primero en firmar este compromiso!
@@ -431,6 +461,9 @@
                 center: document.getElementById('center').value,
                 email: document.getElementById('email').value,
                 department: document.getElementById('department').value,
+                locality: document.getElementById('locality').value,
+                province: document.getElementById('province').value,
+                region: document.getElementById('region').value,
                 commitments: selectedCommitments.join(', '),
                 additional: document.getElementById('additional').value,
                 action: 'submit'
@@ -472,6 +505,10 @@
 
         function displaySignatories() {
             const container = document.getElementById('signatories-list');
+            const counterElement = document.getElementById('counter-number');
+            
+            // Update counter
+            counterElement.textContent = signatories.length;
 
             if (signatories.length === 0) {
                 container.innerHTML = '<div class="no-signatories">¡Sé el primer centro en adherirse!</div>';
@@ -481,14 +518,13 @@
             let html = '';
             signatories.forEach(signatory => {
                 const departmentText = signatory.department ? ` - ${signatory.department}` : '';
-                const representativeText = signatory.representative ? `<div><strong>Representante:</strong> ${signatory.representative}</div>` : '';
+                const locationText = `${signatory.locality || ''}, ${signatory.province || ''}, ${signatory.region || ''}`.replace(/^,\s*|,\s*$/g, '').replace(/,\s*,/g, ',');
                 const additionalText = signatory.additional ? `<div><strong>Comentarios adicionales:</strong> ${signatory.additional}</div>` : '';
 
                 html += `
                     <div class="signatory">
                         <div class="signatory-name">${signatory.center}</div>
-                        ${representativeText}
-                        <div class="signatory-affiliation">${departmentText}</div>
+                        <div class="signatory-affiliation">${locationText}${departmentText}</div>
                         <div class="signatory-commitments">
                             <strong>Acciones:</strong> ${signatory.commitments}
                         </div>
