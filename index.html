@@ -132,6 +132,7 @@
 
         input[type="text"],
         input[type="email"],
+        select,
         textarea {
             width: 100%;
             padding: 12px;
@@ -143,6 +144,7 @@
 
         input[type="text"]:focus,
         input[type="email"]:focus,
+        select:focus,
         textarea:focus {
             outline: none;
             border-color: #CE1126;
@@ -382,7 +384,29 @@
 
                 <div class="form-group">
                     <label for="region">Comunidad Autónoma *</label>
-                    <input type="text" id="region" name="region" required placeholder="Tu comunidad autónoma">
+                    <select id="region" name="region" required>
+                        <option value="">Selecciona tu comunidad autónoma</option>
+                        <option value="Andalucía">Andalucía</option>
+                        <option value="Aragón">Aragón</option>
+                        <option value="Principado de Asturias">Principado de Asturias</option>
+                        <option value="Illes Balears">Illes Balears</option>
+                        <option value="Canarias">Canarias</option>
+                        <option value="Cantabria">Cantabria</option>
+                        <option value="Castilla-La Mancha">Castilla-La Mancha</option>
+                        <option value="Castilla y León">Castilla y León</option>
+                        <option value="Cataluña">Cataluña</option>
+                        <option value="Comunitat Valenciana">Comunitat Valenciana</option>
+                        <option value="Extremadura">Extremadura</option>
+                        <option value="Galicia">Galicia</option>
+                        <option value="Comunidad de Madrid">Comunidad de Madrid</option>
+                        <option value="Región de Murcia">Región de Murcia</option>
+                        <option value="Comunidad Foral de Navarra">Comunidad Foral de Navarra</option>
+                        <option value="País Vasco">País Vasco</option>
+                        <option value="La Rioja">La Rioja</option>
+                        <option value="Ceuta">Ceuta</option>
+                        <option value="Melilla">Melilla</option>
+                        <option value="Estado Español">Estado Español</option>
+                    </select>
                 </div>
 
                 <div class="checkbox-group">
@@ -412,6 +436,32 @@
 
         <div class="signatories-section">
             <h2>Listado de colectivos/instituciones/centros educativos adheridos</h2>
+            <div style="margin-bottom: 20px;">
+                <label for="ccaa-filter" style="display: block; margin-bottom: 8px; color: #009639; font-weight: bold;">Filtrar por Comunidad Autónoma:</label>
+                <select id="ccaa-filter" style="width: 100%; padding: 12px; border: 2px solid #009639; border-radius: 8px; font-size: 16px;">
+                    <option value="">Todas las CCAA</option>
+                    <option value="Andalucía">Andalucía</option>
+                    <option value="Aragón">Aragón</option>
+                    <option value="Principado de Asturias">Principado de Asturias</option>
+                    <option value="Illes Balears">Illes Balears</option>
+                    <option value="Canarias">Canarias</option>
+                    <option value="Cantabria">Cantabria</option>
+                    <option value="Castilla-La Mancha">Castilla-La Mancha</option>
+                    <option value="Castilla y León">Castilla y León</option>
+                    <option value="Cataluña">Cataluña</option>
+                    <option value="Comunitat Valenciana">Comunitat Valenciana</option>
+                    <option value="Extremadura">Extremadura</option>
+                    <option value="Galicia">Galicia</option>
+                    <option value="Comunidad de Madrid">Comunidad de Madrid</option>
+                    <option value="Región de Murcia">Región de Murcia</option>
+                    <option value="Comunidad Foral de Navarra">Comunidad Foral de Navarra</option>
+                    <option value="País Vasco">País Vasco</option>
+                    <option value="La Rioja">La Rioja</option>
+                    <option value="Ceuta">Ceuta</option>
+                    <option value="Melilla">Melilla</option>
+                    <option value="Estado Español">Estado Español</option>
+                </select>
+            </div>
             <div id="signature-counter" style="background: #f8fff8; padding: 15px; border-radius: 8px; border-left: 4px solid #009639; margin-bottom: 20px; text-align: center;">
                 <strong style="color: #CE1126; font-size: 1.2em;">Total de adhesiones: <span id="counter-number">0</span></strong>
             </div>
@@ -519,17 +569,25 @@
         function displaySignatories() {
             const container = document.getElementById('signatories-list');
             const counterElement = document.getElementById('counter-number');
-            
-            // Update counter
-            counterElement.textContent = signatories.length;
+            const filterValue = document.getElementById('ccaa-filter').value;
 
-            if (signatories.length === 0) {
-                container.innerHTML = '<div class="no-signatories">¡Sé el primer centro en adherirse!</div>';
+            // Filter signatories based on selected CCAA
+            const filteredSignatories = filterValue ?
+                signatories.filter(signatory => signatory.region === filterValue) :
+                signatories;
+
+            // Update counter with filtered results
+            counterElement.textContent = filteredSignatories.length;
+
+            if (filteredSignatories.length === 0) {
+                container.innerHTML = filterValue ?
+                    '<div class="no-signatories">No hay adhesiones registradas para esta comunidad autónoma.</div>' :
+                    '<div class="no-signatories">¡Sé el primer centro en adherirse!</div>';
                 return;
             }
 
             let html = '';
-            signatories.forEach(signatory => {
+            filteredSignatories.forEach(signatory => {
                 const departmentLine = signatory.department ? `<div class="signatory-department">${signatory.department}</div>` : '';
                 const locationText = `${signatory.locality || ''}, ${signatory.province || ''}, ${signatory.region || ''}`.replace(/^,\s*|,\s*$/g, '').replace(/,\s*,/g, ',');
                 const locationLine = locationText ? `<div class="signatory-location">${locationText}</div>` : '';
@@ -551,6 +609,9 @@
 
             container.innerHTML = html;
         }
+
+        // Add event listener for CCAA filter
+        document.getElementById('ccaa-filter').addEventListener('change', displaySignatories);
 
         // Cargar firmas cuando se carga la página
         loadSignatories();

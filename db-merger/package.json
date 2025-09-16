@@ -1,0 +1,24 @@
+{
+  "name": "mareapalestina",
+  "version": "1.0.0",
+  "description": "Una plataforma digital para que centros educativos, colectivos y organizaciones españolas se adhieran a la declaración \"Marea Palestina: la educación contra el genocidio\" y registren sus acciones de solidaridad.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/perakakis/Educacionconpalestina.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/perakakis/Educacionconpalestina/issues"
+  },
+  "homepage": "https://github.com/perakakis/Educacionconpalestina#readme",
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "xlsx": "^0.18.5"
+  }
+}
