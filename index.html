@@ -465,6 +465,12 @@
                     <option value="Estado Español">Estado Español</option>
                 </select>
             </div>
+            <div style="margin-bottom: 20px;">
+                <label for="commitment-filter" style="display: block; margin-bottom: 8px; color: #009639; font-weight: bold;">Filtrar por Acción:</label>
+                <select id="commitment-filter" style="width: 100%; padding: 12px; border: 2px solid #009639; border-radius: 8px; font-size: 16px;">
+                    <option value="">Todas las acciones</option>
+                </select>
+            </div>
             <div id="signature-counter" style="background: #f8fff8; padding: 15px; border-radius: 8px; border-left: 4px solid #009639; margin-bottom: 20px; text-align: center;">
                 <strong style="color: #CE1126; font-size: 1.2em;">Total de adhesiones: <span id="counter-number">0</span></strong>
             </div>
@@ -481,6 +487,45 @@
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby4a546tnF53bJq90njQQBUW-cBNRaVYaMq6JX6DwrPsBg9ECfTlbwFng5A97afL2ee/exec';
 
         let signatories = [];
+
+        // Extract unique commitments from signatories data
+        function getAvailableCommitments() {
+            const commitmentSet = new Set();
+
+            signatories.forEach(signatory => {
+                if (signatory.commitments) {
+                    // Split by comma and trim whitespace
+                    const commitments = signatory.commitments.split(',').map(c => c.trim());
+                    commitments.forEach(commitment => {
+                        if (commitment) {
+                            commitmentSet.add(commitment);
+                        }
+                    });
+                }
+            });
+
+            return Array.from(commitmentSet).sort();
+        }
+
+        // Populate commitment filter dropdown with available options
+        function populateCommitmentFilter() {
+            const filterElement = document.getElementById('commitment-filter');
+            const currentValue = filterElement.value; // Preserve current selection
+            const availableCommitments = getAvailableCommitments();
+
+            // Keep "Todas las acciones" option and add available commitments
+            let optionsHtml = '<option value="">Todas las acciones</option>';
+            availableCommitments.forEach(commitment => {
+                optionsHtml += `<option value="${commitment}">${commitment}</option>`;
+            });
+
+            filterElement.innerHTML = optionsHtml;
+
+            // Restore previous selection if it still exists
+            if (currentValue && availableCommitments.includes(currentValue)) {
+                filterElement.value = currentValue;
+            }
+        }
 
         // Cargar firmas existentes desde Google Sheets
         async function loadSignatories() {
@@ -500,6 +545,7 @@
                 console.error('Error:', error);
                 signatories = [];
             }
+            populateCommitmentFilter();
             displaySignatories();
         }
 
@@ -572,20 +618,30 @@
         function displaySignatories() {
             const container = document.getElementById('signatories-list');
             const counterElement = document.getElementById('counter-number');
-            const filterValue = document.getElementById('ccaa-filter').value;
+            const ccaaFilterValue = document.getElementById('ccaa-filter').value;
+            const commitmentFilterValue = document.getElementById('commitment-filter').value;
 
             // Filter signatories based on selected CCAA
-            const filteredSignatories = filterValue ?
-                signatories.filter(signatory => signatory.region === filterValue) :
+            let filteredSignatories = ccaaFilterValue ?
+                signatories.filter(signatory => signatory.region === ccaaFilterValue) :
                 signatories;
+
+            // Filter by commitment if selected
+            if (commitmentFilterValue) {
+                filteredSignatories = filteredSignatories.filter(signatory => {
+                    return signatory.commitments && signatory.commitments.includes(commitmentFilterValue);
+                });
+            }
 
             // Update counter with filtered results
             counterElement.textContent = filteredSignatories.length;
 
             if (filteredSignatories.length === 0) {
-                container.innerHTML = filterValue ?
-                    '<div class="no-signatories">No hay adhesiones registradas para esta comunidad autónoma.</div>' :
-                    '<div class="no-signatories">¡Sé el primer centro en adherirse!</div>';
+                let message = '¡Sé el primer centro en adherirse!';
+                if (ccaaFilterValue || commitmentFilterValue) {
+                    message = 'No hay adhesiones registradas con los filtros seleccionados.';
+                }
+                container.innerHTML = `<div class="no-signatories">${message}</div>`;
                 return;
             }
 
@@ -615,6 +671,9 @@
 
         // Add event listener for CCAA filter
         document.getElementById('ccaa-filter').addEventListener('change', displaySignatories);
+
+        // Add event listener for commitment filter
+        document.getElementById('commitment-filter').addEventListener('change', displaySignatories);
 
         // Cargar firmas cuando se carga la página
         loadSignatories();
