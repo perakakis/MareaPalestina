@@ -182,6 +182,28 @@
             display: none;
         }
 
+        /* TEMPORARY: Disable form submissions while keeping signatures visible */
+        .form-section {
+            opacity: 0.5;
+            pointer-events: none;
+            position: relative;
+        }
+
+        .form-section::before {
+            content: "⚠️ Las adhesiones están temporalmente pausadas";
+            display: block;
+            background: #CE1126;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+            opacity: 1;
+            pointer-events: none;
+        }
+        /* END TEMPORARY */
+
         .submit-btn {
             background: linear-gradient(135deg, #009639, #CE1126);
             color: white;
