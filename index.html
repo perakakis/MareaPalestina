@@ -104,6 +104,11 @@
             display: none;
         }
 
+        /* Campaign header without fist icon */
+        .commitment-list li.campaign-header:before {
+            content: none;
+        }
+
         .form-section {
             background: rgba(255, 255, 255, 0.95);
             padding: 40px;
@@ -347,7 +352,7 @@
     <div class="container">
         <div class="header">
             <img src="logo.jpeg" alt="MAREA PALESTINA: LA EDUCACIÓN CONTRA EL GENOCIDIO" style="max-width: 100%; height: auto; margin-bottom: 15px;">
-            <p class="subtitle">NO ES NORMAL COMENZAR ESTE CURSO CON NORMALIDAD</p>
+            <!-- <p class="subtitle">NO ES NORMAL COMENZAR ESTE CURSO CON NORMALIDAD</p> -->
             <div class="intro-text">
                 <p>Organizaciones de docentes de todos los niveles educativos, familias, personal de administración y servicios, y colectivos vinculados al mundo de la educación a nivel estatal, nos hemos constituido como Marea Palestina: la educación contra el genocidio.</p>
                 <br>
@@ -368,6 +373,17 @@
                 </li>
                 <li>Encierros "Marea Palestina: la educación contra el genocidio"</li>
                 <li>Acción "Pasamos lista". Consiste en la lectura de los nombres de las niñas y niños asesinados, con una duración de unas 15 horas.</li>
+                <li class="campaign-header" style="font-weight: bold; margin-top: 20px; border-top: 2px solid #009639; padding-top: 20px; padding-left: 0;">
+                    🕊️ Campaña "NO HAY PAZ SIN JUSTICIA":
+                    <a href="NO HAY PAZ SIN JUSTICIA.pdf" target="_blank" style="color: #CE1126; font-weight: bold; text-decoration: underline;">Castellano ⬇️</a> |
+                    <a href="NO HI HA PAU SENSE JUSTICIA.pdf" target="_blank" style="color: #CE1126; font-weight: bold; text-decoration: underline;">Català ⬇️</a>
+                </li>
+                <li>Plantación colectiva de olivos</li>
+                <li>Cartografía de los conflictos</li>
+                <li>Postales por la justicia y la paz:
+                    <a href="postales por la paz y la justicia.pdf" target="_blank" style="color: #CE1126; font-weight: bold; text-decoration: underline;">Castellano ⬇️</a> |
+                    <a href="Postals per la pau.pdf" target="_blank" style="color: #CE1126; font-weight: bold; text-decoration: underline;">Català ⬇️</a>
+                </li>
             </ul>
         </div>
 
@@ -379,12 +395,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="center">Nombre del colectivo/institución/centro educativo *</label>
+                    <label for="center">Nombre del colectivo / institución / centro educativo *</label>
                     <input type="text" id="center" name="center" required placeholder="Nombre del centro o colectivo">
                 </div>
 
                 <div class="form-group">
-                    <label for="department">Departamento/Área (opcional):</label>
+                    <label for="department">Departamento / Área / Nivel educativo (opcional):</label>
                     <input type="text" id="department" name="department" placeholder="Tu departamento o área">
                 </div>
 
@@ -451,11 +467,24 @@
                         <input type="checkbox" id="commitment3" name="commitment3" value="Acción 'Pasamos lista'">
                         <label for="commitment3">2. Acción "Pasamos lista"</label>
                     </div>
+                    <p style="font-weight: bold; margin-top: 15px; color: #009639;">🕊️ Campaña "NO HAY PAZ SIN JUSTICIA":</p>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="commitment4" name="commitment4" value="Plantación colectiva de olivos">
+                        <label for="commitment4">3. Plantación colectiva de olivos</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="commitment5" name="commitment5" value="Cartografía de los conflictos">
+                        <label for="commitment5">4. Cartografía de los conflictos</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="commitment6" name="commitment6" value="Postales por la justicia y la paz">
+                        <label for="commitment6">5. Postales por la justicia y la paz</label>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="additional">Compromisos o comentarios adicionales (opcional):</label>
-                    <textarea id="additional" name="additional" placeholder="Cualquier compromiso o comentario adicional..."></textarea>
+                    <label for="additional">Compromisos / comentarios / descripción (opcional):</label>
+                    <textarea id="additional" name="additional" placeholder="Cualquier compromiso o comentario o descripción concreta..."></textarea>
                 </div>
 
                 <button type="submit" class="submit-btn">Firma tu adhesión</button>
@@ -580,7 +609,7 @@
 
             // Recoger compromisos seleccionados
             const selectedCommitments = [];
-            for (let i = 1; i <= 3; i++) {
+            for (let i = 1; i <= 6; i++) {
                 const checkbox = document.getElementById(`commitment${i}`);
                 if (checkbox && checkbox.checked) {
                     selectedCommitments.push(checkbox.value);
