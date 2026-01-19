@@ -540,6 +540,14 @@
         // CONFIGURACIÓN: Actualiza esta URL con tu Google Apps Script
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby4a546tnF53bJq90njQQBUW-cBNRaVYaMq6JX6DwrPsBg9ECfTlbwFng5A97afL2ee/exec';
 
+        // Acciones asociadas a la campaña "NO HAY PAZ SIN JUSTICIA"
+        const CAMPAIGN_ACTIONS = [
+            "Plantación colectiva de olivos",
+            "Cartografía de los conflictos",
+            "Postales por la justicia y la paz"
+        ];
+        const CAMPAIGN_FILTER_VALUE = "🕊️ Campaña NO HAY PAZ SIN JUSTICIA";
+
         let signatories = [];
 
         // Extract unique commitments from signatories data
@@ -572,11 +580,15 @@
             availableCommitments.forEach(commitment => {
                 optionsHtml += `<option value="${commitment}">${commitment}</option>`;
             });
+            
+            // Add visual separator and campaign filter option
+            optionsHtml += '<option disabled>──────────</option>';
+            optionsHtml += `<option value="${CAMPAIGN_FILTER_VALUE}">${CAMPAIGN_FILTER_VALUE}</option>`;
 
             filterElement.innerHTML = optionsHtml;
 
             // Restore previous selection if it still exists
-            if (currentValue && availableCommitments.includes(currentValue)) {
+            if (currentValue && (availableCommitments.includes(currentValue) || currentValue === CAMPAIGN_FILTER_VALUE)) {
                 filterElement.value = currentValue;
             }
         }
@@ -682,9 +694,18 @@
 
             // Filter by commitment if selected
             if (commitmentFilterValue) {
-                filteredSignatories = filteredSignatories.filter(signatory => {
-                    return signatory.commitments && signatory.commitments.includes(commitmentFilterValue);
-                });
+                if (commitmentFilterValue === CAMPAIGN_FILTER_VALUE) {
+                    // Filter by campaign: show signatories with ANY of the campaign actions
+                    filteredSignatories = filteredSignatories.filter(signatory => {
+                        if (!signatory.commitments) return false;
+                        return CAMPAIGN_ACTIONS.some(action => signatory.commitments.includes(action));
+                    });
+                } else {
+                    // Filter by individual action
+                    filteredSignatories = filteredSignatories.filter(signatory => {
+                        return signatory.commitments && signatory.commitments.includes(commitmentFilterValue);
+                    });
+                }
             }
 
             // Update counter with filtered results
